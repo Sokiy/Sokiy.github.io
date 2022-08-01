@@ -8,12 +8,12 @@
     <meta property="og:description" content="Sokiy Blog">
     <meta property="og:type" content="website">
     <meta name="description" content="Sokiy Blog">
-    <meta name="keyword"  content="Sokiy,hexo">
+    <meta name="keyword"  content="Sokiy">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
         
-        正则匹配 IP 思路 - Blog,Sokiy
+        正则匹配 IP 思路 - 香蕉大则香蕉皮也大
         
     </title>
 
@@ -95,7 +95,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%80%9D%E8%B7%AF"><span class="toc-text">正则匹配思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E5%81%9A%E7%BB%B4%E5%BA%A6%E5%88%87%E5%88%86"><span class="toc-text">先做维度切分</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%80%9D%E8%B7%AF"><span class="toc-text">正则匹配思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%B4%E5%BA%A6%E5%88%87%E5%88%86"><span class="toc-text">维度切分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BE%E4%BE%8B"><span class="toc-text">举例</span></a></li></ol></li></ol>
 </div>
     
 </div>
@@ -131,12 +131,12 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <h2 id="正则匹配思路"><a href="#正则匹配思路" class="headerlink" title="正则匹配思路"></a>正则匹配思路</h2><p>个人理解: 用一种描述性的语言定义一个规则,去匹配需要匹配到的字符串的子串<br>匹配ip地址的思路</p>
+        <h3 id="正则匹配思路"><a href="#正则匹配思路" class="headerlink" title="正则匹配思路"></a>正则匹配思路</h3><p>个人理解: 用一种描述性的语言定义一个规则,去匹配需要匹配到的字符串的子串<br>匹配ip地址的思路</p>
 <img src="/2019/03/07/regExp/1.jpg" class="" title="你配不上">
 <span id="more"></span>
-<h3 id="先做维度切分"><a href="#先做维度切分" class="headerlink" title="先做维度切分"></a>先做维度切分</h3><p>要匹配 0.0.0.0-255.255.255.255,可以先匹配 0-255,这一个区间,然后向ip去扩展.  </p>
-<p>要匹配 0-255,不能直接去匹配255,正则本来就是一个规则,255这个数字不是很规则,因为数字是从0-9,直接去匹配符合小于255的数字显然是不太切合实际的,可以再做维度切分.<br>可以把255切分成几层</p>
-<p><strong>举个例子,不一定要按这个来</strong><br>255拆分成<br>0-9<br>10-99<br>100-199<br>200-249<br>250-255<br>然后对应的正则就是</p>
+<h4 id="维度切分"><a href="#维度切分" class="headerlink" title="维度切分"></a>维度切分</h4><p>要匹配 0.0.0.0-255.255.255.255,可以先匹配 0-255,这一个区间,然后向ip去扩展.  </p>
+<p>要匹配 0-255,不能直接去匹配255,正则本来就是一个规则,255这个数字不是很规则,因为数字是从0-9,直接去匹配符合小于255的数字显然是不太切合实际的,可以再做维度切分.<br>可以把255切分成几层。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><p><strong>举个例子,不一定要按这个来</strong><br>255拆分成<br>0-9<br>10-99<br>100-199<br>200-249<br>250-255<br>然后对应的正则就是</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[0-9]         //对应0-9</span><br><span class="line">[1-9][0-9]    //对应10-99</span><br><span class="line">1[0-9]&#123;2&#125;     //对应100-199</span><br><span class="line">2[0-4][0-9]   //对应200-249</span><br><span class="line">25[0-5]       //对应250-255</span><br></pre></td></tr></table></figure>
 <p>然后拼接这个正则表达式  </p>
 <figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(25<span class="comment">[0-5]</span>|2<span class="comment">[0-4]</span><span class="comment">[0-9]</span>|1<span class="comment">[0-9]</span>&#123;2&#125;|<span class="comment">[1-9]</span><span class="comment">[0-9]</span>|<span class="comment">[0-9]</span>)  </span><br><span class="line">(<span class="comment">[0-9]</span>|<span class="comment">[1-9]</span><span class="comment">[0-9]</span>|1<span class="comment">[0-9]</span>&#123;2&#125;|2<span class="comment">[0-4]</span><span class="comment">[0-9]</span>|25<span class="comment">[0-5]</span>)  //这两种都行,只不过不加^$开始结束符号的时候,匹配到的子串不同</span><br></pre></td></tr></table></figure>
