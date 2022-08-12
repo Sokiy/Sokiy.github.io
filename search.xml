@@ -23,19 +23,6 @@
     
     
     <entry>
-      <title>two-ways-binding</title>
-      <link href="/2022/two-ways-binding/"/>
-      <url>/2022/two-ways-binding/</url>
-      
-        <content type="html"><![CDATA[<p>proxy 劫持数组对象会触发两次</p><p>原因</p><blockquote><p>js 除了基础类型，其他都可以认为是对象，数组本质就是对象，下标可以认为是属性的 key，同时又一个 Length 的属性记录长度，Push 就相当于新增了一个 key 为 Length - 1 的属性，然后修改对象的 Length 为 length + 1，所以会触发两次。<br>在谷歌浏览器里，就是通过对象是否有 值为数字的 length，值为 function 的 push 和 splice 来区分对象和数组的。</p></blockquote><p>Todo</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>threeJS 键盘控制物块移动动画优化</title>
       <link href="/2022/threejs-move-control/"/>
       <url>/2022/threejs-move-control/</url>
