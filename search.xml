@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>HTTP 30X 跳转问题记录</title>
+      <link href="/2022/http-status-30x/"/>
+      <url>/2022/http-status-30x/</url>
+      
+        <content type="html"><![CDATA[<h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h4><p>在做一个项目的时候遇到了需要做 30x 跳转的问题，记录一下。</p><blockquote><p>做单点登录的时候需要访问某一个接口后跳转到 CAS 服务器的登录界面，这时候采取了返回 30X 状态码让浏览器做重定向到其他界面。<br>然后发现并不能跳转，如果 IP 不一样的话直接会报跨域错误。</p></blockquote><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status">HTTP 响应状态码</a></p><h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><h5 id="跨域原因"><a href="#跨域原因" class="headerlink" title="跨域原因"></a>跨域原因</h5><p>当我在 <strong><a href="http://www.a.com/">www.a.com</a></strong> 做 <code>Ajax XHR</code> 请求，想在请求中重定向到其他的界面，这时候接口返回 302 状态码，location 为 <strong><a href="http://www.b.com/">www.b.com</a></strong>。  </p><p>浏览器收到 302 的请求之后，会自己在当前界面请求 request header 中的 location 地址，比如说 location 为 <strong><a href="http://www.b.com/">www.b.com</a></strong>，但是这个时候就是在 <strong><a href="http://www.a.com/">www.a.com</a></strong> 的界面请求 <strong><a href="http://www.b.com/">www.b.com</a></strong> 的接口数据，这时候会有 cors 跨域问题。</p><p>这时候查看控制台，会发现请求的 <strong><a href="http://www.b.com/">www.b.com</a></strong> 的请求并非是 <code>document</code> 资源请求类型，而是 <code>xhr</code> 的类型。</p><p>但是如果 <strong><a href="http://www.a.com/">www.a.com</a></strong> 是一个 <code>document</code> 的请求，302 后就相当于在 <strong><a href="http://www.a.com/">www.a.com</a></strong> 打开 <strong><a href="http://www.b.com/">www.b.com</a></strong> 的超链接，会跳转到 <strong><a href="http://www.b.com/">www.b.com</a></strong>。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> HTTP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>异或 XOR 及其应用</title>
       <link href="/2022/what-is-exclusive-or/"/>
       <url>/2022/what-is-exclusive-or/</url>
