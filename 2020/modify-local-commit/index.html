@@ -147,7 +147,7 @@
 
 <p>设置默认的编辑器为 <code>vim</code>。</p>
 <h4 id="修改本地其中某一次的-commit-message"><a href="#修改本地其中某一次的-commit-message" class="headerlink" title="修改本地其中某一次的 commit message"></a>修改本地其中某一次的 <code>commit message</code></h4><p>假如我们本地的提交记录是</p>
-<img src="/2020/modify-local-commit/git-log.png" class="" title="git-log">
+
 
 
 
@@ -159,27 +159,27 @@
 
 <p><code>2967706</code> 这个 <code>commit id</code> 是本地分支记录里远程分支的最新一次提交的 <code>commit id</code> ，这是一个合并 <code>commit</code> 的操作，会把我们本地还未 <code>push</code> 的 <code>commit</code> 都包含进来，可以用这个操作修改其中某次的 <code>commit message</code>。</p>
 <p>执行 <code>git rebase -i 2967706</code> 命令后，我们可以针对未提交的 <code>commit meaasge</code> 做修改。</p>
-<p><img src="/2020/modify-local-commit/git-rebase.png" alt="git-rebase"></p>
+<p><img src="/git-rebase.png" alt="git-rebase"></p>
 <p>然后把 <code>9ec87bb</code> 前面的 <code>pick</code> 改成 <code>reword</code> 或者 <code>r</code></p>
 <blockquote>
 <p> r, reword <commit> = use commit, but edit the commit message</p>
 </blockquote>
-<p><img src="/2020/modify-local-commit/git-reword-step-1.png" alt="git-reword-step-1"></p>
+<p><img src="/git-reword-step-1.png" alt="git-reword-step-1"></p>
 <p><strong>列出的 <code>commit</code> 记录是最新的在最下面</strong>。然后会弹出 <code>vim</code> 编辑界面，改完之后保存并退出。</p>
-<p><img src="/2020/modify-local-commit/git-reword-step-2.png" alt="git-reword-step-2"></p>
+<p><img src="/git-reword-step-2.png" alt="git-reword-step-2"></p>
 <p>然后就会变成</p>
-<p><img src="/2020/modify-local-commit/git-reword-step-3.png" alt="git-reword-step-3"></p>
+<p><img src="/git-reword-step-3.png" alt="git-reword-step-3"></p>
 <p>发现我们修改的那次提交的 <code>commit id</code> 和它之后提交的记录的 <code>commit id</code> 都变了。</p>
 <h3 id="合并-commit-提交记录"><a href="#合并-commit-提交记录" class="headerlink" title="合并 commit 提交记录"></a>合并 commit 提交记录</h3><p>拿上面修改的 <code>commit</code> 做一次合并提交，把本地的三次提交合并到一次提交。</p>
 <p>使用</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i 2967706</span><br></pre></td></tr></table></figure>
 
 <p>弹出编辑界面，保存并退出。</p>
-<p><img src="/2020/modify-local-commit/git-rebase-1.png" alt="git-rebase-1"></p>
+<p><img src="/git-rebase-1.png" alt="git-rebase-1"></p>
 <p>回车之后又出现编辑界面，因为我改了最新的一次提交由 <code>pick</code> 改成了 <code>record</code> 。</p>
-<p><img src="/2020/modify-local-commit/git-rebase-2.png" alt="git-rebase-2"></p>
+<p><img src="/git-rebase-2.png" alt="git-rebase-2"></p>
 <p>终端输出</p>
-<p><img src="/2020/modify-local-commit/git-rebase-3.png" alt="git-rebase-3"></p>
+<p><img src="/git-rebase-3.png" alt="git-rebase-3"></p>
 <p>然后提交修改</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 

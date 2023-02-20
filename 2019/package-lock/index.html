@@ -132,7 +132,7 @@
     </div>
     <div class="post-content no-indent">
         <h3 id="设计美学"><a href="#设计美学" class="headerlink" title="设计美学"></a>设计美学</h3><p>所有的设计最终一定是符合大众对事物的认知的，一定是满足大部分人的使用习惯的。<br>「平平淡淡才是真」</p>
-<img src="/2019/package-lock/1.jpg" class="" title="平平淡淡才是真">
+
 
 <h4 id="为什么需要-package-lock-json"><a href="#为什么需要-package-lock-json" class="headerlink" title="为什么需要 package-lock.json"></a>为什么需要 package-lock.json</h4><p>在 <code>npm 5.0</code> 版本之前，如果在 package.json 中某个依赖库版本加上 <code>^</code> 或者 <code>~</code> 的前缀，那么下次安装的时候，如果该依赖库有升级，那么默认就会安装符合前缀要求的最新的版本，这样就可能导致同一个 package.json，在不同时间安装的依赖库版本号可能不一致。所以 npm 对版本号的命名做了一些规范，小版本号之间的升级只是做一些小改动，不要影响之前版本的运行  </p>
 <p><strong>但是</strong></p>
@@ -146,7 +146,7 @@
 </ul>
 <p>5.6 之后的规则终于符合大众的认知了， 当 package.json 没有更新的时候，默认安装 package-lock 中指定的版本，如果 package.json 有更新，则安装 package.json 中的版本，然后同步到 package-lock 中。</p>
 <p>起码从我的认知来讲，这样是最合适的，又能锁版本，又能更新版本。</p>
-<p><img src="/2019/package-lock/2.jpg" alt="岂不美哉"></p>
+<p><img src="/2.jpg" alt="岂不美哉"></p>
 
         <br />
         <div id="comment-container">
