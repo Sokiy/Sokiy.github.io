@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>下载安装激活 Office（和 Visio 共存）</title>
+      <link href="/2023/active-office/"/>
+      <url>/2023/active-office/</url>
+      
+        <content type="html"><![CDATA[<p>微软在 Office 2016 之后的版本均不提供 ISO 镜像下载（指正版商业镜像），VL （批量授权）版本的 Office 需要管理员手动使用 ODT （Office Deployment Tools）工具进行部署。</p><p>简单记录一下安装步骤</p><p>总体分四步</p><ol><li>下载官方部署工具</li><li>生成配置文件</li><li>根据配置文件下载安装</li><li>激活</li></ol><p><strong>使用 Terminal 操作时使用管理员权限</strong></p><h4 id="下载官方部署工具"><a href="#下载官方部署工具" class="headerlink" title="下载官方部署工具"></a>下载官方部署工具</h4><p>在 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=49117">https://www.microsoft.com/en-us/download/details.aspx?id=49117</a> 下载 ODT 官方工具包</p><p><strong>尽量使用 Edge 浏览器打开，我曾经使用 Chrome 会出现一道白条完全无法进行下一步，遇到下载不了可以尝试换一个浏览器</strong></p><p>安装执行 ODT 工具会得到一个 <code>setup.exe</code> 文件和四个 XML 文件</p><h4 id="生成配置文件"><a href="#生成配置文件" class="headerlink" title="生成配置文件"></a>生成配置文件</h4><p>在 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=49117">https://www.microsoft.com/en-us/download/details.aspx?id=49117</a> 根据界面选配自己需要的软件</p><blockquote><p>选择带<em>批量许可证</em>描述的版本，不要选择带 SPLA 字样的版本<br>授权和激活：选 KMS 选项。</p></blockquote><p>不止三件套 Word、Excel、PowerPoint，也可以跟 Visio、Project 一起下载安装<br>选配完成之后点击导出会生成一个 XML 文件，比如命名成 <code>Sokiy.xml</code>，跟之前 ODT 安装生成的 setup.exe 放到一个目录下</p><h4 id="根据配置文件下载安装"><a href="#根据配置文件下载安装" class="headerlink" title="根据配置文件下载安装"></a>根据配置文件下载安装</h4><p>使用 cmd 或者其他 terminal 在放置 setup.exe 的文件夹下执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\setup.exe /download Sokiy.xml</span><br></pre></td></tr></table></figure><p>然后会在当前目录下生成一个 Office 文件夹，所有需要的数据都会下载到这个目录里面。<br>根据选配的参数和网络情况下载时间有长有短，等到 terminal 显示下载完成时候执行下一步操作</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\setup.exe /configure Sokiy.xml</span><br></pre></td></tr></table></figure><p>开始执行安装操作，这时候等待安装完成即可。</p><h4 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h4><p>64 位版本进入到 <code>C:\Program Files\Microsoft Office\</code>,<br>其他版本在 <code>C:\Program Files(x86)\Microsoft Office\Office16</code></p><p>里面可能有 Office16、Office15、Office14 字样，选大的。</p><p>进去之后有一个 <code>OSPP.VBS</code>, 然后执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cscript ospp.vbs /sethst:kms.03k.org</span><br></pre></td></tr></table></figure><p>kms.03k.org 是 KMS 服务器地址，有很多在线的服务器</p><blockquote><p><a href="http://kms.03k.org/">http://kms.03k.org</a><br><a href="http://kms.chinancce.com/">http://kms.chinancce.com</a><br><a href="http://kms.luody.info/">http://kms.luody.info</a><br><a href="http://kms.lotro.cc/">http://kms.lotro.cc</a><br><a href="http://kms.luochenzhimu.com/">http://kms.luochenzhimu.com</a><br><a href="http://kms8.msguides.com/">http://kms8.MSGuides.com</a><br><a href="http://kms9.msguides.com/">http://kms9.MSGuides.com</a>  </p></blockquote><p>填写 KMS 服务器的时候<strong>不需要</strong>前面的 http://</p><p>然后执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cscript ospp.vbs /act</span><br></pre></td></tr></table></figure><p>出现 Successful 字样就算成功了</p><p>参考</p><ul><li><a href="https://blog.03k.org/post/dowload-vloffice.html">安装最新VL版office快捷指南</a></li><li><a href="https://zhuanlan.zhihu.com/p/81561582">KMS服务,一句命令激活windows/office!</a></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> tools </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>命令式、函数式、响应式编程</title>
       <link href="/2023/Imperative-Function-Reactive-Programming/"/>
       <url>/2023/Imperative-Function-Reactive-Programming/</url>
