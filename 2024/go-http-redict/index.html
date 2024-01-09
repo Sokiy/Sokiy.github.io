@@ -13,7 +13,7 @@
 
     <title>
         
-        香蕉大则香蕉皮也大
+        多产品集成跳转方案优化 - 香蕉大则香蕉皮也大
         
     </title>
 
@@ -61,7 +61,7 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li  class=active >
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>主页</span>
@@ -94,6 +94,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%9D%A5%E6%BA%90"><span class="toc-text">需求来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF"><span class="toc-text">优化思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-text">效果展示</span></a></li></ol>
+</div>
+    
 </div>
 
 
@@ -105,117 +109,50 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2021-09-29</div>
-        <div class="post-info">
-            <a href="/2021/publish-a-package-in-npm-private-repository/">
-                <h3>
-                    在 npm 私有仓库中发布一个 package
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#npm" title="npm">npm</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+
+<div class="post-container">
+    <div class="post-title">
+        多产品集成跳转方案优化
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2020-05-27</div>
-        <div class="post-info">
-            <a href="/2020/modify-local-commit/">
-                <h3>
-                    合并 &amp; 修改本地 commit 提交
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#git" title="git">git</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2024-01-09 19:10:33</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#tech" title="tech">tech</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2019-10-17</div>
-        <div class="post-info">
-            <a href="/2019/csrf/">
-                <h3>
-                    csrf 原理和防护措施
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#csrf" title="csrf">csrf</a>
-                <span>/</span>
-                
-                
-            </p>
+    <div class="post-content no-indent">
+        <h3 id="需求来源"><a href="#需求来源" class="headerlink" title="需求来源"></a>需求来源</h3><p>我们目前需要整合多个不同的产品平台,让他们能够通过一个统一的入口来访问。但是这些被集成的产品都没有实施单点登录机制,而是使用  <code>session-cookie</code> 来做权限验证。因此,我们需要在用户点击进入不同产品时,先进行权限判断和跳转。大多数产品都是直接访问登录界面,然后系统会自动填充账号和密码后跳转到产品的默认首页。这种方案改造成本较低,但是会有一个短暂的白屏过程。我们可以尝试对此流程进行优化,实现无感知的平滑跳转。</p>
+<h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><p>一个核心点：不用访问登录界面，自己模拟一个权限验证接口，如果已登录就直接跳转产品首页，如果未登录就接口层直接模拟登录流程生成 session，接口通过 302 和 set-cookie 完成上述需求。</p>
+
+
+<p>使用 <code>golang</code> 模拟一个 <code>http server</code> 完成这个需求，代码如下</p>
+
+
+
+
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><p>当访问 login 接口时，判断用户权限，根据用户权限判断是否需要 Set-cookie, 这样就针对于这个项目而言，改造成本就没有那么大，而且访问也是无感知的，不会出现白屏这种现象。</p>
+
+
+<p>Done!</p>
+
+        <br />
+        <div id="comment-container">
         </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2019-05-29</div>
-        <div class="post-info">
-            <a href="/2019/package-lock/">
-                <h3>
-                    为什么要有 package-lock
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#技术瞎扯淡" title="技术瞎扯淡">技术瞎扯淡</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2019-03-07</div>
-        <div class="post-info">
-            <a href="/2019/regExp/">
-                <h3>
-                    正则匹配 IP 思路
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#regExp" title="regExp">regExp</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
 </div>
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/">&larr; 上一页</a>
-    </li>
-    
-    
-</ul>
 
     </div>
 </div>
@@ -253,7 +190,7 @@
 <script>
     // We expose some of the variables needed by the front end
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
