@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>git stash clear 恢复</title>
+      <link href="/2024/git-stash-clear-recover/"/>
+      <url>/2024/git-stash-clear-recover/</url>
+      
+        <content type="html"><![CDATA[<p>** <code>git stash clear </code>之后恢复解决方案**</p><p>首先执行 <code>git fsck --lost-found</code></p><p>会出现</p><img src="./git-fsck.png"><p>只用关注 <strong>dangling commit</strong> 后面跟着的 id</p><p>然后 <code>git show </code> 对应的 id，查看是不是自己需要恢复的文件内容，尽量从下往上找。</p><img src="./git-show.png"><p>找到对应的 id 之后执行  <code>git merge &lt;id&gt;</code>，然后就还原了。</p><p>不过还原之后是作为一次 commit 提交到本地的，并非暂存状态</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>张乃霞和李建军的爱恨情仇（1）</title>
       <link href="/2024/flomo-sync/"/>
       <url>/2024/flomo-sync/</url>
