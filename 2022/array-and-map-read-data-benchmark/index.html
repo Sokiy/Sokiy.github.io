@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        Array &amp; Map 读取数据 Benchmark 测试 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%A1%88"><span class="toc-text">测试方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Rander-Array-amp-Map"><span class="toc-text">Rander Array &amp; Map</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Random-Array"><span class="toc-text">Random Array</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Array-benchmark"><span class="toc-text">Array benchmark</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Map-benchmark"><span class="toc-text">Map benchmark</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Array &amp; Map 读取数据 Benchmark 测试
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2022-03-23 11:38:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#javascript" title="javascript">javascript</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#optimize" title="optimize">optimize</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>针对 JavaScript Array 和 Map 类型读取数据做一次性能测试，测试一下读取数据的性能。</p>
+<span id="more"></span>
+
+<h4 id="测试方案"><a href="#测试方案" class="headerlink" title="测试方案"></a>测试方案</h4><ul>
+<li>  创建长度为 len 的 Array 和 Map 结构，内容都相同</li>
+<li>  创建一个乱序的长度为 len 且内容都是 true false 各半的数组</li>
+<li>  循环乱序数组，如果为 true 则分别取 Array 和 Map 的值做拼接，测试最终的代码运行时间</li>
+</ul>
+<h5 id="Rander-Array-amp-Map"><a href="#Rander-Array-amp-Map" class="headerlink" title="Rander Array &amp; Map"></a>Rander Array &amp; Map</h5><p>首先创建好我们的 Array 和 Map 结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BSAECHAR =</span><br><span class="line">  <span class="string">&quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> Ret = &#123;&#125;; <span class="comment">//Array 和 Map 的输出集合</span></span><br><span class="line"><span class="keyword">let</span> len = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在给定的集合中返回对应长度的 Array 和  Map</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomString</span>(<span class="params">length, chars</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> retArr = [];</span><br><span class="line">  <span class="keyword">let</span> retMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> char = chars[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * chars.length)];</span><br><span class="line">    retArr[i] = char;</span><br><span class="line">    retMap.set(i, char);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">arr</span>: retArr, <span class="attr">map</span>: retMap &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">&quot;render Ret&quot;</span>);</span><br><span class="line">Ret = randomString(len, BSAECHAR);</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">&quot;render Ret&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Random-Array"><a href="#Random-Array" class="headerlink" title="Random Array"></a>Random Array</h5><p>然后定义我们的乱序数组，乱序函数使用 <code>Fisher–Yates shuffle</code> 洗牌算法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> RandomArr = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Fisher–Yates shuffle</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffle</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> len = arr.length;</span><br><span class="line">  <span class="keyword">while</span> (len &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * len--);</span><br><span class="line">    [arr[len], arr[index]] = [arr[index], arr[len]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个乱序的长度为 len 且内容都是 true false 各半的数组</span></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">&quot;render RandomArr&quot;</span>);</span><br><span class="line">RandomArr = shuffle(</span><br><span class="line">  <span class="built_in">Array</span>(len / <span class="number">2</span>)</span><br><span class="line">    .fill(<span class="literal">true</span>)</span><br><span class="line">    .concat(<span class="built_in">Array</span>(len / <span class="number">2</span>).fill(<span class="literal">false</span>))</span><br><span class="line">);</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">&quot;render RandomArr&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Array-benchmark"><a href="#Array-benchmark" class="headerlink" title="Array benchmark"></a>Array benchmark</h5><p>首先测试从 Array 中取值的时长</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从 Array 中取值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderResultInArray</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ret = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  RandomArr.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (item) &#123;</span><br><span class="line">      ret += Ret.arr[index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">&quot;array&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> retArr = renderResultInArray();</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">&quot;array&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="Map-benchmark"><a href="#Map-benchmark" class="headerlink" title="Map benchmark"></a>Map benchmark</h5><p>然后测试从 Map 中取值的时长</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从 Map 中取值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderResultInMap</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ret = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  RandomArr.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (item) &#123;</span><br><span class="line">      ret += Ret.map[index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">&quot;map&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> retMap = renderResultInMap();</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">&quot;map&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>然后执行程序进行输出：</p>
+<img src="/2022/array-and-map-read-data-benchmark/benchmark.png" class="" title="benchmark">
+
+<p>貌似 Map 结构并没有说比 Array 取值快, WTF。</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

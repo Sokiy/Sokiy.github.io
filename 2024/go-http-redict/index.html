@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        多产品集成跳转方案优化 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%9D%A5%E6%BA%90"><span class="toc-text">需求来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF"><span class="toc-text">优化思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-text">效果展示</span></a></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        多产品集成跳转方案优化
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2024-01-09 19:10:33</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#tech" title="tech">tech</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h3 id="需求来源"><a href="#需求来源" class="headerlink" title="需求来源"></a>需求来源</h3><p>我们目前需要整合多个不同的产品平台,让他们能够通过一个统一的入口来访问。但是这些被集成的产品都没有实施单点登录机制,而是使用  <code>session-cookie</code> 来做权限验证。因此,我们需要在用户点击进入不同产品时,先进行权限判断和跳转。大多数产品都是直接访问登录界面,然后系统会自动填充账号和密码后跳转到产品的默认首页。这种方案改造成本较低,但是会有一个短暂的白屏过程。我们可以尝试对此流程进行优化,实现无感知的平滑跳转。</p>
+<h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><p>一个核心点：不用访问登录界面，自己模拟一个权限验证接口，如果已登录就直接跳转产品首页，如果未登录就接口层直接模拟登录流程生成 session，接口通过 302 和 set-cookie 完成上述需求。</p>
+<!-- <img src="./flow.png" width="500px"/> -->
+
+<img src="/2024/go-http-redict/flow.png" class="" title="FlowChart">
+
+<p>使用 <code>golang</code> 模拟一个 <code>http server</code> 完成这个需求，代码如下</p>
+<img src="/2024/go-http-redict/code.png" class="" title="code">
+
+
+
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><p>当访问 login 接口时，判断用户权限，根据用户权限判断是否需要 Set-cookie, 这样就针对于这个项目而言，改造成本就没有那么大，而且访问也是无感知的，不会出现白屏这种现象。</p>
+<img src="/2024/go-http-redict/flow.gif" class="" title="flow">
+
+<p>Done!</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

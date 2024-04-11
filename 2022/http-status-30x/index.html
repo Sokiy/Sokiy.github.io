@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        HTTP 30X 跳转问题记录 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1"><span class="toc-text">现象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="toc-text">原因</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F%E5%8E%9F%E5%9B%A0"><span class="toc-text">跨域原因</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        HTTP 30X 跳转问题记录
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2022-08-29 15:00:27</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#HTTP" title="HTTP">HTTP</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h4><p>在做一个项目的时候遇到了需要做 30x 跳转的问题，记录一下。</p>
+<blockquote>
+<p>做单点登录的时候需要访问某一个接口后跳转到 CAS 服务器的登录界面，这时候采取了返回 30X 状态码让浏览器做重定向到其他界面。<br>然后发现并不能跳转，如果 IP 不一样的话直接会报跨域错误。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status">HTTP 响应状态码</a></p>
+<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><h5 id="跨域原因"><a href="#跨域原因" class="headerlink" title="跨域原因"></a>跨域原因</h5><p>当我在 <strong><a target="_blank" rel="noopener" href="http://www.a.com/">www.a.com</a></strong> 做 <code>Ajax XHR</code> 请求，想在请求中重定向到其他的界面，这时候接口返回 302 状态码，location 为 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong>。  </p>
+<p>浏览器收到 302 的请求之后，会自己在当前界面请求 request header 中的 location 地址，比如说 location 为 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong>，但是这个时候就是在 <strong><a target="_blank" rel="noopener" href="http://www.a.com/">www.a.com</a></strong> 的界面请求 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong> 的接口数据，这时候会有 cors 跨域问题。</p>
+<p>这时候查看控制台，会发现请求的 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong> 的请求并非是 <code>document</code> 资源请求类型，而是 <code>xhr</code> 的类型。</p>
+<p>但是如果 <strong><a target="_blank" rel="noopener" href="http://www.a.com/">www.a.com</a></strong> 是一个 <code>document</code> 的请求，302 后就相当于在 <strong><a target="_blank" rel="noopener" href="http://www.a.com/">www.a.com</a></strong> 打开 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong> 的超链接，会跳转到 <strong><a target="_blank" rel="noopener" href="http://www.b.com/">www.b.com</a></strong>。</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

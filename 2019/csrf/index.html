@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        csrf 原理和防护措施 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF-%E4%BB%8B%E7%BB%8D"><span class="toc-text">CSRF 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">攻击方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-text">核心原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E6%8A%A4%E6%8E%AA%E6%96%BD"><span class="toc-text">防护措施</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        csrf 原理和防护措施
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-10-17 14:33:48</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#csrf" title="csrf">csrf</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h3 id="CSRF-介绍"><a href="#CSRF-介绍" class="headerlink" title="CSRF 介绍"></a>CSRF 介绍</h3><p>CSRF（Cross-site request forgery），中文名称：跨站请求伪造。<br>可以在 B 网站利用 A 网站的 cookie 去做一些针对 A 网站的操作,但这用户是没法感知的</p>
+<h4 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h4><p>举个栗子  </p>
+<p>小明在 A 网站登录买了一个 8848 钛合金手机,准备在朋友面前装个逼, 美滋滋的下了单,填好收货信息付了款之后没有关闭 A 网站的页签(有时候关了页签 cookie 也还是会存留一段时间的),然后在 B 网站开始溜达, 但是恰好 B 网站就是针对 A 网站做的一个钓鱼网站, 里面有一个按钮链接是修改已经登录了 A 网站用户的收货信息的, 这个链接对小明是迷惑的,比如就是一个链接到 NSFW 网站的地址,小明点了进去然后发送了一条请求(相同的路径和参数)给 A 网站, 因为 A 网站没有做 CSRF 防护, 导致这条请求会携带 A 网站的 cookie, 那么 A 网站会认为这个请求就是该用户发起的, 所以地址修改成功, 到时候小明就是人财两空</p>
+<h4 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h4><p>就是在 B 网站点击一个带有 A 网站请求的链接时, 这条链接会带上 A 网站的 cookie,就相当于你访问了 A 网站的那条链接, 这个时候 cookie 会自动带上的</p>
+<h4 id="防护措施"><a href="#防护措施" class="headerlink" title="防护措施"></a>防护措施</h4><p>服务端生成一个随机的 csrftoken, 这个只要是随机的都成,<br>然后用户在登录的时候,把这个值放在响应头的 set-cookie 中,然后客户端在请求接口的时候从 cookie 中拿出这个值,放在请求头的 header 中(不是 cookie 里面,是 header 里面,放到 cookie 里面一点用都没),   </p>
+<p><strong>B 网站是只能用 A 网站的 cookie,<br>用的意思是 B 网站只知道在 B 网站访问 A 网站的链接,是可以带上 A 网站的 cookie 的,但是这个 cookie 的内容, B 网站是没法感知的,当然也是不能操作的</strong></p>
+<p>所以当把 csrftoken 放到请求 header 中的时候, B 网站中点击 A 网站的链接是没法去传递这个值的, 然后后端再去校验 csrftoken 的值是否正确就行。</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

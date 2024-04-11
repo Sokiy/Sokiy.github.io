@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        为什么要有 package-lock - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%BE%8E%E5%AD%A6"><span class="toc-text">设计美学</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-package-lock-json"><span class="toc-text">为什么需要 package-lock.json</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%96%84%E5%8F%98%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">善变的规则</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        为什么要有 package-lock
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-05-29 15:08:22</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#技术瞎扯淡" title="技术瞎扯淡">技术瞎扯淡</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h3 id="设计美学"><a href="#设计美学" class="headerlink" title="设计美学"></a>设计美学</h3><p>所有的设计最终一定是符合大众对事物的认知的，一定是满足大部分人的使用习惯的。<br>「平平淡淡才是真」</p>
+<img src="/2019/package-lock/1.jpg" class="" title="平平淡淡才是真">
+
+<h4 id="为什么需要-package-lock-json"><a href="#为什么需要-package-lock-json" class="headerlink" title="为什么需要 package-lock.json"></a>为什么需要 package-lock.json</h4><p>在 <code>npm 5.0</code> 版本之前，如果在 package.json 中某个依赖库版本加上 <code>^</code> 或者 <code>~</code> 的前缀，那么下次安装的时候，如果该依赖库有升级，那么默认就会安装符合前缀要求的最新的版本，这样就可能导致同一个 package.json，在不同时间安装的依赖库版本号可能不一致。所以 npm 对版本号的命名做了一些规范，小版本号之间的升级只是做一些小改动，不要影响之前版本的运行  </p>
+<p><strong>但是</strong></p>
+<p>「理想往往会被现实打脸」<br>因为只是规范，没有强约束（也没法强约束），架不住有的依赖库作者不按这个来。<br>所以就必须锁住版本，就直接在项目中不要用 <code>^~</code> 等前缀，写死版本号，这样就没啥问题了。</p>
+<p><strong>但是</strong></p>
+<p>npm 不能这么干啊，npm 要这么干那都得乱套，所以就新增一个版本锁文件吧（我猜的）<br>那不就是 package-lock.json</p>
+<h4 id="善变的规则"><a href="#善变的规则" class="headerlink" title="善变的规则"></a>善变的规则</h4><p><code>npm 5.0 - 5.6</code> 中间，群魔乱舞，package-lock.json 的处理逻辑一直在改。</p>
+<ul>
+<li>要么是升级了 package.json 的版本号，然后再次安装的时候，还是之前的版本（因为 package-lock 就是之前的版本）。  </li>
+<li>要么是 package-lock 文件就是个摆设，npm install 的时候无论 package-lock 文件是怎么样的，默认都会安装最新版本</li>
+</ul>
+<p>5.6 之后的规则终于符合大众的认知了， 当 package.json 没有更新的时候，默认安装 package-lock 中指定的版本，如果 package.json 有更新，则安装 package.json 中的版本，然后同步到 package-lock 中。</p>
+<p>起码从我的认知来讲，这样是最合适的，又能锁版本，又能更新版本。</p>
+<p><img src="/2019/package-lock/2.jpg" alt="岂不美哉"></p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

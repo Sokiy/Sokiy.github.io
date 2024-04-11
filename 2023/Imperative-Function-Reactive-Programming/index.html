@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        命令式、函数式、响应式编程 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-text">命令式编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="toc-text">函数式编程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%BC%8F"><span class="toc-text">声明式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BA%AF%E5%87%BD%E6%95%B0"><span class="toc-text">纯函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">数据不可变性</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        命令式、函数式、响应式编程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2023-02-20 12:00:01</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#随便想想" title="随便想想">随便想想</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>一点点的个人理解</p>
+<h4 id="命令式编程"><a href="#命令式编程" class="headerlink" title="命令式编程"></a>命令式编程</h4><p>所见即所得，代码看起来就是一串命令的组合，看代码就能看出来具体要干啥。<br>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// double array items</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doubleItem</span> (<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> ret = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i &lt; arr.length;i++&gt;)&#123;</span><br><span class="line">        ret.push(arr[i] * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add one array items</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doubleItem</span> (<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> ret = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i &lt; arr.length;i++&gt;)&#123;</span><br><span class="line">        ret.push(arr[i] + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码的实现细节都是可以看到的，但是可扩展性不强且有一些重复代码。<br>代码量一上去很容易就能体会到，平常实现的某些需求从一些程度来讲模式都是相似的，这时候可以把共性的代码提取出来，把差异化作为参数传入，这个时候就能减少很多的重复代码。<br>这时候函数式编程的好处就体现出来了，我们就可以写出更简洁、更有表现力的代码。</p>
+<h4 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h4><blockquote>
+<p>函数式编程就是非常强调使用函数来解决问题的一种编程方式。</p>
+</blockquote>
+<p>还是上面的列子，就可以写成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// double array items</span></span><br><span class="line"><span class="keyword">const</span> doubleItem = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr.map(<span class="function">(<span class="params">item</span>) =&gt;</span> item * <span class="number">2</span>);</span><br><span class="line"><span class="keyword">const</span> addOne = <span class="function">(<span class="params">arr</span>) =&gt;</span> arr.map(<span class="function">(<span class="params">item</span>) =&gt;</span> item + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>比命令式编程更加的简洁，无需关心内部的实现，只需要知道这个函数能达到需要的效果。  </p>
+<p>函数式编程对函数有如下的特殊要求</p>
+<ul>
+<li>声明式（Declarative）</li>
+<li>纯函数（Pure Function）</li>
+<li>数据不可变性（Immutability）</li>
+</ul>
+<h5 id="声明式"><a href="#声明式" class="headerlink" title="声明式"></a>声明式</h5><p>声明式有点像是用描述的字符定义了一些行为的映射，比如 doubleItem 代表的就是把传入的数字数组中每个 item 都乘以 2，并且返回新的数组，doubleItem 和数组每个子项乘以 2 的映射，<br>doubleItem 就是这个功能的声明。</p>
+<h5 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h5><p>纯函数需要符合两个条件</p>
+<ul>
+<li>函数的执行过程完全由输入参数决定，不会受除参数之外的任何数据影响。</li>
+<li>函数不会修改任何外部状态。</li>
+</ul>
+<h5 id="数据不可变性"><a href="#数据不可变性" class="headerlink" title="数据不可变性"></a>数据不可变性</h5><p>在原数据不变的情况下，产生新的数据来表现这种变化，而不是修改原数据。<br>毕竟原数据不一定是一个程序在用，多进程操作数据会有很多意想不到的结果，还不如数据不可变，用新数据表现数据的变化，让数据的变化有迹可循。</p>
+<p>//Todo</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

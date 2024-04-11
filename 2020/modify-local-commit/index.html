@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        合并 &amp; 修改本地 commit 提交 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-commit-message"><span class="toc-text">修改 commit message</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%9C%AC%E5%9C%B0%E6%9C%80%E6%96%B0%E4%B8%80%E6%AC%A1%E6%8F%90%E4%BA%A4%E7%9A%84-commit-message"><span class="toc-text">修改本地最新一次提交的 commit message</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%9C%AC%E5%9C%B0%E5%85%B6%E4%B8%AD%E6%9F%90%E4%B8%80%E6%AC%A1%E7%9A%84-commit-message"><span class="toc-text">修改本地其中某一次的 commit message</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6-commit-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95"><span class="toc-text">合并 commit 提交记录</span></a></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        合并 &amp; 修改本地 commit 提交
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-05-27 17:38:27</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#git" title="git">git</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>针对 <code>commit</code> 提交中的问题 &amp; 解决方案做一些记录。</p>
+<ul>
+<li>想要合并本地的多次 <code>commit</code> 提交。</li>
+<li>有几次的 <code>commit message</code> 写的有问题，想要进行修改。</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="修改-commit-message"><a href="#修改-commit-message" class="headerlink" title="修改 commit message"></a>修改 <code>commit message</code></h3><h4 id="修改本地最新一次提交的-commit-message"><a href="#修改本地最新一次提交的-commit-message" class="headerlink" title="修改本地最新一次提交的 commit message"></a>修改本地最新一次提交的 <code>commit message</code></h4><p>可以使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<p>来针对最新一次本地的 <code>commit message</code> 做修改。</p>
+<p>默认会打开编辑器界面，有可能是 <code>nano</code>，可以使用：   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.editor vim</span><br></pre></td></tr></table></figure>
+
+<p>设置默认的编辑器为 <code>vim</code>。</p>
+<h4 id="修改本地其中某一次的-commit-message"><a href="#修改本地其中某一次的-commit-message" class="headerlink" title="修改本地其中某一次的 commit message"></a>修改本地其中某一次的 <code>commit message</code></h4><p>假如我们本地的提交记录是</p>
+<img src="/2020/modify-local-commit/git-log.png" class="" title="git-log">
+
+
+
+
+
+<p>可以看到 <code>local</code> 相对于 <code>origin</code> 有三个提交没有 <code>push</code>。</p>
+<p>可以使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i 2967706</span><br></pre></td></tr></table></figure>
+
+<p><code>2967706</code> 这个 <code>commit id</code> 是本地分支记录里远程分支的最新一次提交的 <code>commit id</code> ，这是一个合并 <code>commit</code> 的操作，会把我们本地还未 <code>push</code> 的 <code>commit</code> 都包含进来，可以用这个操作修改其中某次的 <code>commit message</code>。</p>
+<p>执行 <code>git rebase -i 2967706</code> 命令后，我们可以针对未提交的 <code>commit meaasge</code> 做修改。</p>
+<p><img src="/2020/modify-local-commit/git-rebase.png" alt="git-rebase"></p>
+<p>然后把 <code>9ec87bb</code> 前面的 <code>pick</code> 改成 <code>reword</code> 或者 <code>r</code></p>
+<blockquote>
+<p> r, reword <commit> = use commit, but edit the commit message</p>
+</blockquote>
+<p><img src="/2020/modify-local-commit/git-reword-step-1.png" alt="git-reword-step-1"></p>
+<p><strong>列出的 <code>commit</code> 记录是最新的在最下面</strong>。然后会弹出 <code>vim</code> 编辑界面，改完之后保存并退出。</p>
+<p><img src="/2020/modify-local-commit/git-reword-step-2.png" alt="git-reword-step-2"></p>
+<p>然后就会变成</p>
+<p><img src="/2020/modify-local-commit/git-reword-step-3.png" alt="git-reword-step-3"></p>
+<p>发现我们修改的那次提交的 <code>commit id</code> 和它之后提交的记录的 <code>commit id</code> 都变了。</p>
+<h3 id="合并-commit-提交记录"><a href="#合并-commit-提交记录" class="headerlink" title="合并 commit 提交记录"></a>合并 commit 提交记录</h3><p>拿上面修改的 <code>commit</code> 做一次合并提交，把本地的三次提交合并到一次提交。</p>
+<p>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i 2967706</span><br></pre></td></tr></table></figure>
+
+<p>弹出编辑界面，保存并退出。</p>
+<p><img src="/2020/modify-local-commit/git-rebase-1.png" alt="git-rebase-1"></p>
+<p>回车之后又出现编辑界面，因为我改了最新的一次提交由 <code>pick</code> 改成了 <code>record</code> 。</p>
+<p><img src="/2020/modify-local-commit/git-rebase-2.png" alt="git-rebase-2"></p>
+<p>终端输出</p>
+<p><img src="/2020/modify-local-commit/git-rebase-3.png" alt="git-rebase-3"></p>
+<p>然后提交修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<p><strong>It’s Done</strong></p>
+<blockquote>
+<p>已经 <code>push</code> 到远程的 <code>commit</code> 记录，还是不建议改了。强行改其他协同的人要哭了。</p>
+</blockquote>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

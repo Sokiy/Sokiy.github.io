@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        自动区分工作仓库和个人仓库的 Git 提交 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%BA%E5%88%86%E5%B7%A5%E4%BD%9C%E4%BB%93%E5%BA%93%E5%92%8C%E4%B8%AA%E4%BA%BA%E4%BB%93%E5%BA%93%E7%9A%84-Git-%E6%8F%90%E4%BA%A4"><span class="toc-text">自动区分工作仓库和个人仓库的 Git 提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%88%86%E4%B8%8D%E5%90%8C%E7%9A%84-SSH-Key"><span class="toc-text">区分不同的 SSH Key</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90-SSH-Key-%E6%96%87%E4%BB%B6"><span class="toc-text">生成 SSH Key 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-config-%E6%96%87%E4%BB%B6"><span class="toc-text">添加 config 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E5%A7%93%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1"><span class="toc-text">使用不同的姓名和邮箱</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-gitconfig-%E6%96%87%E4%BB%B6"><span class="toc-text">添加 .gitconfig 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90-gitconfig-xxx-%E6%96%87%E4%BB%B6"><span class="toc-text">生成 .gitconfig-xxx 文件</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        自动区分工作仓库和个人仓库的 Git 提交
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2024-04-10 15:47:36</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#git" title="git">git</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h3 id="自动区分工作仓库和个人仓库的-Git-提交"><a href="#自动区分工作仓库和个人仓库的-Git-提交" class="headerlink" title="自动区分工作仓库和个人仓库的 Git 提交"></a>自动区分工作仓库和个人仓库的 Git 提交</h3><p>通常，公司会自建 <code>GitHub</code> 或 <code>GitLab</code> 服务，而个人可能在 GitHub 官网上有自己的个人项目。然而，公司内部项目和个人项目的邮箱配置可能不同。当项目数量较多时，使用 <code>git config --local</code> 或 <code>--global</code> 进行设置就会变得相当麻烦。在这里，我将记录下我个人的解决方案，以便后续参考。</p>
+<h3 id="区分不同的-SSH-Key"><a href="#区分不同的-SSH-Key" class="headerlink" title="区分不同的 SSH Key"></a>区分不同的 SSH Key</h3><h4 id="生成-SSH-Key-文件"><a href="#生成-SSH-Key-文件" class="headerlink" title="生成 SSH Key 文件"></a>生成 SSH Key 文件</h4><p>在 <code>~/.ssh/</code> 目录下生成 SSH Key 文件：</p>
+<ul>
+<li>对于公司内部使用的邮箱，生成一个 SSH Key 文件命名为 <code>ssh-company</code></li>
+<li>对于个人 GitHub 使用的邮箱，生成一个 SSH Key 文件命名为 <code>ssh-github</code></li>
+</ul>
+<h4 id="添加-config-文件"><a href="#添加-config-文件" class="headerlink" title="添加 config 文件"></a>添加 config 文件</h4><p>在 <code>~/.ssh/</code> 目录下创建一个 <code>config</code> 文件，并添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  PreferredAuthentications publickey</span><br><span class="line">  IdentityFile ~/.ssh/ssh-github</span><br><span class="line"></span><br><span class="line">Host gitlab.com</span><br><span class="line">  HostName gitlab.com</span><br><span class="line">  User git</span><br><span class="line">  PreferredAuthentications publickey</span><br><span class="line">  IdentityFile ~/.ssh/ssh-company</span><br></pre></td></tr></table></figure>
+
+<p>这样设置后，使用 <code>git</code> 命令和远程 Git 仓库进行交互时，将根据 Git 远程地址前缀使用不同的 SSH Key。</p>
+<h3 id="使用不同的姓名和邮箱"><a href="#使用不同的姓名和邮箱" class="headerlink" title="使用不同的姓名和邮箱"></a>使用不同的姓名和邮箱</h3><p>在进行 Git 提交时，可以区分个人项目和公司项目，使用不同的姓名和邮箱。</p>
+<h4 id="添加-gitconfig-文件"><a href="#添加-gitconfig-文件" class="headerlink" title="添加 .gitconfig 文件"></a>添加 .gitconfig 文件</h4><p>生成 <code>~/.gitconfig</code> 文件，相当于使用 <code>git config --global</code> 进行全局配置。在该文件中，可以设置个人的 Git 相关配置，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[alias]</span><br><span class="line">  st = status</span><br><span class="line">  co = checkout</span><br><span class="line">[includeIf &quot;hasconfig:remote.*.url:git@gitlab.com:*/**&quot;]</span><br><span class="line">  path = ~/.gitconfig-company</span><br><span class="line">[includeIf &quot;hasconfig:remote.*.url:git@github.com:*/**&quot;]</span><br><span class="line">  path = ~/.gitconfig-github</span><br></pre></td></tr></table></figure>
+
+<p><code>includeIf</code> 是 Git 的条件引入配置语法，它允许根据特定条件从其他文件中读取并合并配置。通过使用 <code>includeIf</code>，可以根据当前仓库的位置或其他条件有选择地包含额外的配置文件，从而实现为不同的仓库或目录设置不同配置而无需手动切换。</p>
+<h4 id="生成-gitconfig-xxx-文件"><a href="#生成-gitconfig-xxx-文件" class="headerlink" title="生成 .gitconfig-xxx 文件"></a>生成 .gitconfig-xxx 文件</h4><p>为了区分姓名和邮箱，可以创建 <code>.gitconfig-xxx</code> 文件，并根据个人喜好添加配置。如果只想区分姓名和邮箱，可以按照以下方式设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## .gitconfig-company</span></span></span><br><span class="line">[user]</span><br><span class="line">    name = 公司姓名</span><br><span class="line">  email = 公司邮箱</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## .gitconfig-github</span></span></span><br><span class="line">[user]</span><br><span class="line">    name = 个人姓名</span><br><span class="line">  email = 个人邮箱</span><br></pre></td></tr></table></figure>
+
+<p>这样，当进行提交时，根据远程主机地址前缀判断使用哪个姓名和邮箱。</p>
+<p>完成！</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>

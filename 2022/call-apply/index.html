@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Blog">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Blog">
+    <meta name="keyword"  content="Sokiy">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        手写 call 函数 - 香蕉大则香蕉皮也大
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sokiy" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<!-- <div class="index-about">
+    <i> 香蕉大则香蕉皮也大 </i>
+</div> -->
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Sokiy</i> <br/>
+            <span>香蕉大则香蕉皮也大</span>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archive">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%86%99-call-%E5%87%BD%E6%95%B0"><span class="toc-text">手写 call 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E7%9A%84-call-%E5%87%BD%E6%95%B0"><span class="toc-text">手写的 call 函数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%86%99-apply-%E5%87%BD%E6%95%B0"><span class="toc-text">手写 apply 函数</span></a></li></ol>
+</div>
+    
+</div>
+
+
+        <div class="index-about-mobile">
+            <i> 香蕉大则香蕉皮也大 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        手写 call 函数
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2022-10-27 14:14:14</span></span>
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h4 id="手写-call-函数"><a href="#手写-call-函数" class="headerlink" title="手写 call 函数"></a>手写 call 函数</h4><blockquote>
+<p>call 函数就是改变当前函数 this 的指向<br>思路就是在自己手写的函数内部，在传入的对象中增加同样的函数，然后执行返回，最后删除即可。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Obj1 = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Sokiy&quot;</span>,</span><br><span class="line">    <span class="attr">say</span>: <span class="function"><span class="keyword">function</span> (<span class="params">prefix, age</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(</span><br><span class="line">            <span class="string">`<span class="subst">$&#123;prefix&#125;</span>, My name is <span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>, i&#x27;m <span class="subst">$&#123;age&#125;</span> years old.`</span></span><br><span class="line">        );</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Obj1.say(<span class="string">&quot;Hello&quot;</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Obj2 = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Tong&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Obj1.say.call(Obj2, <span class="string">&quot;Hello&quot;</span>, <span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+
+<p>output:</p>
+<blockquote>
+<p> Hello, My name is Sokiy, i’m 20 years old.<br>   Hello, My name is Tong, i’m 18 years old.</p>
+</blockquote>
+<h5 id="手写的-call-函数"><a href="#手写的-call-函数" class="headerlink" title="手写的 call 函数"></a>手写的 call 函数</h5><p>不用箭头是因为箭头函数没有自己的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this"><code>this</code></a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments"><code>arguments</code></a>，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/super"><code>super</code></a>或<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new.target"><code>new.target</code></a><br>我们需要用到这个东西</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.tinycall = <span class="function"><span class="keyword">function</span> (<span class="params">target, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> key = <span class="built_in">Symbol</span>();  <span class="comment">//给定一个独一无二的 key，有可能会和原 target 中key 产生冲突</span></span><br><span class="line">  target[key] = <span class="built_in">this</span>; <span class="comment">// this 就是需要执行的函数，所谓的重新指向就是复制了一份</span></span><br><span class="line">  <span class="keyword">const</span> res = target[key](...args);</span><br><span class="line">  <span class="keyword">delete</span> target[key];</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="手写-apply-函数"><a href="#手写-apply-函数" class="headerlink" title="手写 apply 函数"></a>手写 apply 函数</h4><p>同 call 函数，无非是 args 参数是否是数组的区别</p>
+
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<footer class="footer">
+	<ul class="list-inline text-center">
+		    
+		<li>
+			<a
+				target="_blank"
+				href="https://github.com/Sokiy"
+			>
+				<span class="fa-stack fa-lg">
+					<i class="iconfont icon-github"></i>
+				</span>
+			</a>
+		</li>
+		 
+	</ul>
+	
+	<p>
+		<span>/</span>
+		
+	</p>
+	
+	<p>
+		Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> Theme
+		<a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a>
+	</p>
+</footer>
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>
